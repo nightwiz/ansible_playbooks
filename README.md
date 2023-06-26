@@ -1,4 +1,3 @@
 
 # 自用的ansible playbook
-# Author: nightwiz:
-#
+# Author: nightwiz

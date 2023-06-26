@@ -1,0 +1,27 @@
+    ---
+    - name: insert_nginx_upstream
+      hosts: dev
+      gather_facts: no
+
+      tasks:
+        - name: insert_upstream
+          blockinfile:
+            path: /root/upstream.conf.bak
+            block: |
+              upstream ansible {
+                server xx.xx.xx.xx:16102;
+              }
+
+        - name: nginx_t
+          shell: /opt/nginx/sbin/nginx -t 
+          register: returnmsg
+
+        - name: test_result1
+          debug:
+            msg: "successful"
+          when: returnmsg.rc == 0
+
+        - name: test_result2
+          debug:
+            msg: "failed"
+          when: returnmsg.rc == 1

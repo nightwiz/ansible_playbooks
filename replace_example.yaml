@@ -1,0 +1,18 @@
+---
+- name: change vm_state.sh
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: modify SQL 1
+      replace:
+        path: /opt/zabbix/script/vm_state.sh
+        regexp: 'online_state=4 AND os_state=2 AND mgr_state=1  AND image_version=71'
+        replace: 'image_version=71 AND ((mgr_state=1 and online_state=4 and os_state=2) or (mgr_state=101 and online_state=4 and os_state in (2,3)))'
+        backup: yes
+    
+    - name: modify SQL 2
+      replace:
+        path: /opt/zabbix/script/vm_state.sh
+        regexp: '\(mgr_state=1 and online_state=4 and os_state=2\) or \(mgr_state=101 and online_state=4 and os_state in \(2,3\)\) AND image_version=71'
+        replace: 'image_version=71 AND ((mgr_state=1 and online_state=4 and os_state=2) or (mgr_state=101 and online_state=4 and os_state in (2,3))) and assign_state=1'

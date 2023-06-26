@@ -1,0 +1,16 @@
+---
+- name: change vm_state.sh
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: add vm_state.sh
+      blockinfile:
+        path: /opt/zabbix/script/vm_state.sh
+        marker: "#ANSIBLE MANAGED BLOCK"
+        insertbefore: "esac"
+        content: |
+          100)
+          use_vm_100=`echo 'select count(vmid) from d_game_virtual_machine_info.t_game_virtual_machine_info where mgr_state = 100' | mysql -u$dbuser -p$dbpass -P$port -h$host -N`
+          echo $use_vm_100
+          ;;

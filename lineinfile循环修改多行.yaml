@@ -1,0 +1,22 @@
+---
+- name: zabbix config
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: "modify zabbix config"
+      lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf 
+        regexp: '{{item.From}}'
+        line: '{{item.To}}'
+        state: present  
+   
+      with_items:
+       - { From: '^Server=', To: 'Server=172.26.240.168'}
+       - { From: '^ServerActive=', To: 'ServerActive=172.26.240.168'}
+
+    - name: restart zabbix-agent
+      service:
+        name: zabbix-agent
+        state: restarted
+      tags: restart_zbx_agent

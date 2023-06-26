@@ -1,0 +1,11 @@
+---
+- name: zabbix config
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: "modify base_service config"
+      lineinfile:
+        path: /opt/zabbix/script/base_service.list
+        regexp: 'migu-(\d+)-redis'
+        state: absent

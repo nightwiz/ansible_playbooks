@@ -1,0 +1,15 @@
+---
+- name: add backend_list
+  hosts: all
+  gather_facts: no
+  y
+  tasks:
+    - name: insert line
+      lineinfile:
+        path: /opt/zabbix/script/backend_service.list
+        line: "{{item}}"
+   
+      with_items:
+       - "game_data_mg-104 {{ net }}.240.104 28170" 
+       - "game_data_mg-105 {{ net }}.240.105 28170"
+       - "game_data_mg-106 {{ net }}.240.106 28170"

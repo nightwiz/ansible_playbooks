@@ -1,0 +1,23 @@
+---
+- name: insert_nginx_upstream_and_reload
+  hosts: dev
+  gather_facts: no
+
+  tasks:
+    - name: insert_upstream
+      blockinfile:
+        path: /root/upstream.conf.bak
+        marker: "#{mark} infra"
+        backup: yes
+        block: |
+          upstream ansible {
+            server xx.xx.xx.xx:16102;
+          }
+
+    - name: nginx_t
+      shell: /opt/nginx/sbin/nginx -t
+      register: cmd_result
+
+    - name: nginx_reload
+      shell: /opt/nginx/sbin/nginx -s reload
+      when: cmd_result.rc == 0

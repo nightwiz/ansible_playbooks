@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:  
+  - name: crontab
+    cron:
+      name: "Time Sync"
+      job: "bash /home/work/script/synctime.sh > /dev/null 2>&1"
+      minute: "00"
+      hour: "05"
+      state: present

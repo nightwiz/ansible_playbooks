@@ -1,0 +1,10 @@
+hosts: localhost
+  tasks:  
+  - name: cp with loop
+    copy:
+      src: "{{ item }}"
+      dest: /tmp/conf
+      owner: root
+      mode: 600
+    with_fileglob:
+      - /home/vrviu/conf/*

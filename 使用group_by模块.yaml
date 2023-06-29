@@ -1,0 +1,17 @@
+# 当处理两个不同操作系统之间不同的参数时，处理此问题的一个好方法是使用 group_by 模块
+# 这使得动态主机组匹配特定条件，即使该组未在清单文件中定义：
+---
+
+ - name: talk to all hosts just so we can learn about them
+   hosts: all
+   tasks:
+     - name: Classify hosts depending on their OS distribution
+       group_by:
+         key: os_{{ ansible_facts['distribution'] }}
+
+ # now just on the CentOS hosts...
+
+ - hosts: os_CentOS
+   gather_facts: False
+   tasks:
+     - # tasks that only happen on CentOS go here
